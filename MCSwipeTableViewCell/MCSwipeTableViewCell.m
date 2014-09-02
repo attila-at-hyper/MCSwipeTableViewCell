@@ -312,9 +312,13 @@ typedef NS_ENUM(NSUInteger, MCSwipeTableViewCellDirection) {
         }
         
         else {
-            [self swipeToOriginWithCompletion:^{
+            if (!_shouldSkipSwipeBack) {
+                [self swipeToOriginWithCompletion:^{
+                    [self executeCompletionBlock];
+                }];
+            } else {
                 [self executeCompletionBlock];
-            }];
+            }
         }
         
         // We notify the delegate that we just ended swiping.
